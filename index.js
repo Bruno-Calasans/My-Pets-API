@@ -1,17 +1,17 @@
 
 // express
 import express from 'express'
-import { SERVER, PORT, CLIENT } from './configs/config.js'
+import { SERVER, PORT, CLIENT } from './src/configs/config.js'
 
 // helpers
-import { line, warn } from "./helpers/print.js";
+import { warn } from "./src/helpers/print.js";
 
 // middlewares
 import cors from 'cors'
 
 // routers
-import userRouter from './routers/user.router.js'
-import petRouter from './routers/pet.router.js'
+import userRouter from './src/routers/user.router.js'
+import petRouter from './src/routers/pet.router.js'
 
 // app principal
 const app = express()
