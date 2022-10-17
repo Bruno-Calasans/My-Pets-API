@@ -1,7 +1,7 @@
 
 // express
 import express from 'express'
-import { serverConfig } from './configs/config.js'
+import { SERVER, PORT, CLIENT } from './configs/config.js'
 
 // helpers
 import { line, warn } from "./helpers/print.js";
@@ -25,7 +25,7 @@ app.use(express.json())
 // configurando CORS
 app.use(cors({
     credentials: true,
-    origin: 'http://127.0.0.1:3000' // front end
+    origin: CLIENT // front end
 }))
 
 // roteamento
@@ -37,7 +37,7 @@ app.use('/user', userRouter)
 app.use('/pet', petRouter)
 
 // incianto servidor
-const  {hostname, port} = serverConfig
-app.listen(port, hostname, () => {
-    warn(`Servidor inciado em http://${hostname}:${port}`)
+
+app.listen(PORT || 8000, () => {
+    warn(`Servidor inciado em ${SERVER}`)
 })
