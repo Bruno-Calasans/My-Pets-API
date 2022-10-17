@@ -30,7 +30,7 @@ app.use(cors({
 
 // roteamento
 app.get('/', (req, res) => {
-    res.send('Olá')
+    res.send('API Online')
 })
  
 app.use('/user', userRouter)
