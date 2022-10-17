@@ -14,7 +14,7 @@ export default class PetController {
     } catch (e) {
       res
         .status(500)
-        .json({ error: true, message: "Erro ao carregar os pets" });
+        .json({ error: true, message: e.message });
     }
   }
 
