@@ -1,14 +1,13 @@
 
 import fs from 'fs'
 import path from 'path'
+import { IMGS_UPLOAD_FOLDER } from '../configs/config.js'
 
-export default function clearImages(names = [], folder='pet'){
+export default function clearImages(filenames = [], folder='pet'){
 
-    const basePath = path.join(process.cwd(), 'public', 'imgs', folder)
+    for (let filename of filenames) {
 
-    for (let name of names) {
-
-        const filePath = path.join(basePath, name)
+        const filePath = path.join(IMGS_UPLOAD_FOLDER, folder, filename)
 
         try {
             fs.existsSync(filePath) 

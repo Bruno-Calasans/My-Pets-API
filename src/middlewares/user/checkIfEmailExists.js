@@ -4,7 +4,6 @@ import User from "../../models/user.model.js"
 export default async function checkIfEmailExists(req, res, next) {
 
     const email = req.body.email
-
     if(!email){ return next() }
 
     // validando email

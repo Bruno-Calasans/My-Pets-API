@@ -1,57 +1,65 @@
 
 import { checkSchema, matchedData} from 'express-validator'
-import { regexFilePath } from '../../helpers/regex.js';
+import { regexFilePath, regexAlphaAccent } from '../../helpers/regex.js';
 import { objIsEmpty, getErrorsFromResult } from '../../helpers/bodyValidator.js'
 import clearImages from '../../helpers/clearImages.js';
+
 
  // verificando campos
  const registerPetSchema = {
    name: {
-     exists: { errorMessage: "Name is required" },
-     notEmpty: { errorMessage: "Name can't be empty" },
-     isAlpha: { errorMessage: "Name must be alphabetic" },
+     exists: { errorMessage: "Campo name não existe" },
+     notEmpty: { errorMessage: "Nome é obrigatório" },
      isLength: {
        options: { min: 3, max: 30 },
-       errorMessage:
-         "Name msut have 3 or more caracteres",
+       errorMessage: "Nome deve ter entre 3 e 30 caracteres",
      },
-   },
+     custom: {
+      options: (name) => {
+        return !regexAlphaAccent.test(name);
+      },
+      errorMessage: "Nome deve ser alfabético"}
+    },
    age: {
-     exists: { errorMessage: "Age is required" },
-     notEmpty: { errorMessage: "Age can't be empty" },
-     isFloat: { errorMessage: "Age must be a number" },
+     exists: { errorMessage: "Campo age não existe" },
+     notEmpty: { errorMessage: "Idade é obrigatório" },
+     isFloat: { errorMessage: "Idade deve ser ujm número" },
    },
    weight: {
-     exists: { errorMessage: "Weight is required" },
-     notEmpty: { errorMessage: "Weight can't be empty" },
-     isFloat: { errorMessage: "Must be a number" },
+     exists: { errorMessage: "Campo weight não existe" },
+     notEmpty: { errorMessage: "Peso é obrigatório" },
+     isFloat: { errorMessage: "Peso deve ser um número" },
    },
    color: {
-     exists: { errorMessage: "Color is required" },
-     notEmpty: { errorMessage: "Name can't be empty" },
-     isAlpha: { errorMessage: "Color must be alphabetic" },
+     exists: { errorMessage: "Campo color não existe" },
+     notEmpty: { errorMessage: "Cor é obrigatório" },
+     isAlpha: { errorMessage: "Cor deve ser alfabética" },
    },
    images: {
-     exists: { errorMessage: "Images are required" },
-     notEmpty: { errorMessage: "Images can't be empty" },
+     exists: { errorMessage: "Campo images não existe" },
+     notEmpty: { errorMessage: "Você deve enviar uma imagem" },
      isArray: {
-       errorMessage: "Images must be a array of images",
-       options: { errorMessage: "Image must have at least 1 image", min: 1 },
+       errorMessage: "Campo images deve ser um array de imagens",
+       options: {
+         errorMessage: "Você deve enviar uma imagem pelo menos",
+         min: 1,
+       },
      },
      custom: {
        options: (array) => {
          for (let image of array) {
-            return regexFilePath.test(image);
-            // if (!result) { return false }
+           return regexFilePath.test(image);
          }
        },
-       errorMessage: "Each image name must be a string",
+       errorMessage: "Cada imagem deve ser o nome dela com a extensão",
      },
    },
  };
  
 // check if body data is valid
 export default async function checkBodyBeforeRegisterPet(req, res, next) {
+
+  console.log(regexAlphaAccent.test(req.body.name));
 
   // body vazio
   if (objIsEmpty(req.body)) {
@@ -63,8 +71,7 @@ export default async function checkBodyBeforeRegisterPet(req, res, next) {
   const errors = getErrorsFromResult(results)
 
   if (errors.length > 0) {
-    const filenames = req.files.map(file => file.filename)
-    clearImages(filenames, 'pet')
+    if(req.body.images){ clearImages(req.body.images, 'pet') }
     return res.status(400).json({
       error: true,
       message: errors[0].msg,

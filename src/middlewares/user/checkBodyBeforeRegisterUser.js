@@ -3,64 +3,69 @@ import { checkSchema, matchedData } from 'express-validator'
 import { regexFilePath, regexPhone } from '../../helpers/regex.js';
 import { objIsEmpty, getErrorsFromResult } from "../../helpers/bodyValidator.js";
 
-const registerUserSchema = 
-  {
-    firstName: {
-      exists: { errorMessage: "First Name is required" },
-      isAlpha: { errorMessage: "First Name must be alphabetic" },
-      isLength: {
-        options: { min: 3 },
-        errorMessage: "First Name must have 3 or more caracteres",
-      },
+const registerUserSchema = {
+  firstName: {
+    exists: { errorMessage: "Campo firstName não existe" },
+    notEmpty: { errorMessage: "Primeiro nome é obrigatório" },
+    isAlpha: { errorMessage: "Primeiro nome deve ser alfabético" },
+    isLength: {
+      options: { min: 3 },
+      errorMessage: "Primeiro nome deve ter 3 ou mais caracteres",
     },
-    lastName: {
-      exists: { errorMessage: "Last Name is required" },
-      isAlpha: { errorMessage: "First Name must be alphabetic" },
-      isLength: {
-        options: { min: 3 },
-        errorMessage: "Last Name must have 3 or more 3 caracteres",
-      },
+  },
+  lastName: {
+    exists: { errorMessage: "Campo lastName não existe" },
+    notEmpty: { errorMessage: "Sobrenome é obrigatório" },
+    isAlpha: { errorMessage: "Sobrenome deve ser alfabético" },
+    isLength: {
+      options: { min: 3 },
+      errorMessage: "Sobrenome deve ter 3 ou mais caracteres",
     },
-    email: {
-      exists: { errorMessage: "Email is required" },
-      isEmail: { errorMessage: "Invalid email" },
+  },
+  email: {
+    exists: { errorMessage: "Campo email não existe" },
+    notEmpty: { errorMessage: "Email é obrigatório" },
+    isEmail: { errorMessage: "Email inválido" },
+  },
+  password: {
+    exists: { errorMessage: "Capo password não existe" },
+    notEmpty: { errorMessage: "Senha é obrigatório" },
+    isString: { errorMessage: "Senha deve ser uma string" },
+    isLength: {
+      errorMessage: "Senha deve ter 8 ou mais caracteres",
+      options: { min: 8 },
     },
-    password: {
-      exists: { errorMessage: "Password is required" },
-      isString: { errorMessage: "Password must be a string" },
-      isLength: {
-        errorMessage: "Password must have 8 or more characteres",
-        options: { min: 8 },
-      },
+  },
+  confirmationPassword: {
+    exists: { errorMessage: "Campo confirmationPassword não existe" },
+    notEmpty: { errorMessage: "Confirmação de senha é obrigatório" },
+    isString: { errorMessage: "Confirmação de senha deve ser uma string" },
+    isLength: {
+      errorMessage: "Confirmação de senha deve ter 8 ou mais caracteres",
+      options: { min: 8 },
     },
-    confirmationPassword: {
-      exists: { errorMessage: "Confirmation password is required" },
-      isString: { errorMessage: "Confirmation password must be a string" },
-      isLength: {
-        errorMessage: "Password must have 8 or more characteres",
-        options: { min: 8 },
+  },
+  image: {
+    // notEmpty: { errorMessage: "Confirmação de senha é obrigatório" },
+    custom: {
+      options: (value) => {
+        return regexFilePath.test(value);
       },
+      errorMessage: "Nome de image inválido",
     },
-    image: {
-      custom: {
-        options: (value) => {
-          return regexFilePath.test(value);
-        },
-        errorMessage: "Invalid image path",
+    optional: true,
+  },
+  phone: {
+    exists: { errorMessage: "Campo phone não existe" },
+    notEmpty: { errorMessage: "Número de celular é obrigatório" },
+    custom: {
+      options: (value) => {
+        return regexPhone.test(value);
       },
-      optional: true,
+      errorMessage: "Formato de número de celular inválido",
     },
-    phone: {
-      exists: { errorMessage: "Phone Number is required" },
-      custom: {
-        options: (value) => {
-          return regexPhone.test(value);
-        },
-        errorMessage:
-          "Invalid phone number. Must be this pattern (xx) x xxxx xxxx",
-      },
-    }
-}
+  },
+};
 
 
 // check if body data is valid

@@ -3,12 +3,12 @@ import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 
 dotenv.config()
-const secret = process.env.secret
+const TOKEN_SECRET = process.env.TOKEN_SECRET
 
 export function createUserToken(user) {
 
     try {
-        return jwt.sign({_id: user._id}, secret, {expiresIn: '1d'})
+        return jwt.sign({_id: user._id}, TOKEN_SECRET, {expiresIn: '1d'})
 
     }catch(e){
         return {name: e.name, message: e.message}
@@ -34,7 +34,7 @@ export function getToken(req) {
 export function checkUserToken(token) {
 
     try {
-        return jwt.verify(token, secret, { maxAge: "1d" });
+        return jwt.verify(token, TOKEN_SECRET, { maxAge: "1d" });
 
     }catch(e) {
         console.log(e.name, e.message);

@@ -17,7 +17,7 @@ import petRouter from './routers/pet.router.js'
 const app = express()
 
 // configurando arquivos estáticos
-app.use('/public', express.static('./public'))
+app.use('/upload', express.static('./upload'))
 
 // body parser
 app.use(express.json())

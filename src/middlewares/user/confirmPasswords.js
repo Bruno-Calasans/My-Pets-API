@@ -9,11 +9,18 @@ export default async function confirmPasswords(req, res, next) {
   }
 
   if(password && !confirmationPassword){ 
-    return res.status(400).json({error: true, message: "You must provide a confirmation password"})
+    return res
+      .status(400)
+      .json({
+        error: true,
+        message: "You must provide a confirmation password",
+      });
   }
 
   if(!password && confirmationPassword){ 
-    return res.status(400).json({error: true, message: "You must provide a password"})
+    return res
+      .status(400)
+      .json({ error: true, message: "You must provide a password" });
   }
        
   // passwords validation
@@ -22,7 +29,7 @@ export default async function confirmPasswords(req, res, next) {
         .status(400)
         .json({
           error: true,
-          message: "Password and Confirmation don't match",
+          message: "Senhas não conferem",
       });
   }
 

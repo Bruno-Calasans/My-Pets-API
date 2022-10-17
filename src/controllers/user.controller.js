@@ -1,18 +1,12 @@
 
-import { warn, line } from "../helpers/print.js";
 import User from "../models/user.model.js";
-import { validateData, getErrors } from "../helpers/validate.js";
-import { hash, checkPassword } from "../helpers/hash.js"
-import { checkUserToken, createUserToken, getToken } from './../helpers/token.js';
+import { getErrors } from "../helpers/validate.js";
+import {createUserToken } from './../helpers/token.js';
 import { isValidObjectId } from 'mongoose';
 import clearImages from "../helpers/clearImages.js";
 
 export default class UserController {
   
-  static async getAll(req, res) {
-    res.json({ message: "Todos os users" });
-  }
-
   static async register(req, res) {
 
     const user = req.body
@@ -23,16 +17,15 @@ export default class UserController {
       const token = createUserToken(savedUser)
 
       return res.json({
-        message: "User created successfully",
+        message: "Usuário criado com sucesso",
         user: savedUser.condidential,
         token,
       });
 
     }catch(e){
-      // console.log(e);
       return res
         .status(505)
-        .json({ error: true, message: "Error to create user" });
+        .json({ error: true, message: "Erro ao criar usuário" });
     }
 
   }
@@ -51,7 +44,7 @@ export default class UserController {
     const user = res.locals.user
 
     res.json({
-      message: "Authorization successfuly",
+      message: "Autorização bem-sucedida",
       user: user
     })
 
@@ -89,7 +82,7 @@ export default class UserController {
     const previousUser = res.locals.user
 
     // clearing the old image file
-    if(req.body.image) {
+    if(req.body.image && previousUser.image) {
       clearImages([previousUser.image], 'user');
     }
 
@@ -101,7 +94,7 @@ export default class UserController {
       updatedUser.save()
 
       return res.status(201).json({
-        message: "Update successfully",
+        message: "Usuário atualizado com sucesso",
         previousUser,
         updatedUser: updatedUser.confidential,
       });
@@ -109,8 +102,8 @@ export default class UserController {
     }
     catch(e){
       res.status(500).json({
-        message: "Update failed",
-        error: await getErrors(e)
+        message: "Error ao atualizar usuário",
+        error: await getErrors(e),
       });
       
     }

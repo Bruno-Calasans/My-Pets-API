@@ -105,9 +105,6 @@ router.patch(
     "none",
     "Cancelamento falhou pois a adoção ainda não foi iniciada"
   ),
-  // checkAdoptionStatus(
-  //   "finished", 
-  //   "Cancelamento falhou pois adoção já foi concluída"),
   checkAdoptionStatus(
     "cancelled", 
     "Cancelamento falhou pois adoção já foi cancelada"),

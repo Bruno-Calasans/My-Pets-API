@@ -1,6 +1,8 @@
+
 import path from 'path'
 import multer from 'multer'
 import { randomInt } from 'crypto'
+import { IMGS_UPLOAD_FOLDER } from '../configs/config.js'
 
 const imageStorage = multer.diskStorage({
     
@@ -9,17 +11,18 @@ const imageStorage = multer.diskStorage({
         let folder = ""
 
         if(req.baseUrl.includes('user')) {
-            folder = '/user'
+            folder = 'user'
 
         }else if (req.baseUrl.includes('pet')){
-            folder = '/pet'
+            folder = 'pet'
         }
 
-        cb(null,  path.join(process.cwd(), 'public', 'imgs', folder))
+        cb(null,  path.join(IMGS_UPLOAD_FOLDER , folder))
     },
     filename: (req, file, cb) => {
         // evitar arquivos sejam salvos com mesmo nome
-        const name = Date.now() + randomInt(0, 10000) + path.extname(file.originalname)
+        const name =
+          Date.now() + randomInt(0, 10000) + path.extname(file.originalname);
         cb(null, name)
 
     }
@@ -30,7 +33,7 @@ const uploadImage = multer({
     fileFilter: (req, file, cb) => {
 
         if(!file.originalname.match(/\.(png|jpg)$/)) {
-            cb(new Error("The permitted extensions are .jpg or .png"), false)
+            cb(new Error("As exntesões permitidas são .jpg or .png"), false)
             return
         }
 

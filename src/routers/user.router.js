@@ -11,13 +11,11 @@ import checkIfEmailExists from '../middlewares/user/checkIfEmailExists.js'
 import checkIfEmailDoesNotExist from '../middlewares/user/checkIfEmailDoesNotExist.js'
 import checkBodyBeforeLogin from '../middlewares/user/checkBodyBeforeLogin.js'
 import checkIfPasswordIsValid from '../middlewares/user/checkIfPasswordIsValid.js'
+import checkIfItsSameEmail from '../middlewares/user/checkIfItsSameEmail.js'
 import confirmPasswords from '../middlewares/user/confirmPasswords.js'
 import uploadHandler from './../middlewares/uploadHandler.js';
 
 const router = express.Router()
-
-// pega todos os usuários
-router.get('/', UserController.getAll) 
 
 // pega um usuário pelo seu id
 router.get('/info/:id', UserController.getUserById) 
@@ -50,7 +48,7 @@ router.patch(
   authUser,
   uploadHandler('single', 'image'),
   checkBodyBeforeUpdateUser,
-  checkIfEmailDoesNotExist,
+  checkIfItsSameEmail,
   confirmPasswords,
   UserController.editUser
 ); 

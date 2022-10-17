@@ -1,15 +1,4 @@
 
-// error format
-//  { message: 'Validation failed',
-//  name: 'ValidationError',
-//  errors:
-//   { size:
-//      { message: 'must be less than 20',
-//        name: 'ValidatorError',
-//        path: 'size',
-//        type: 'user defined',
-//        value: 14 } } }
-// })
 
 export async function getErrors(e){
 

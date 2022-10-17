@@ -4,11 +4,13 @@ import { objIsEmpty, getErrorsFromResult } from '../../helpers/bodyValidator.js'
 
 const loginSchema = {
     email: {
-      exists: { errorMessage: "Email é obrigatório" },
+      exists: { errorMessage: "Campo email não existe" },
+      notEmpty: {errorMessage : "Email obrigatório"},
       isEmail: { errorMessage: "Email inválido" },
     },
     password: {
-      exists: { errorMessage: "Senha é obrigatórioa" },
+      exists: { errorMessage: "Campo password não existe" },
+      notEmpty: {errorMessage : "Senha é obrigatório"},
       isString: { errorMessage: "Senha deve ser um string" },
       isLength: {
         errorMessage: "Senha deve ter 8 ou mais caracteres",

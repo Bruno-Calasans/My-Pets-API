@@ -3,14 +3,14 @@ import User from "../../models/user.model.js"
 
 export default async function checkIfEmailDoesNotExist(req, res, next) {
 
+    const currentUser = req.body
     // validando email
-    const currentUser = res.locals.user
     const foundUser = await User.findOne({email: req.body.email})
 
-    if(foundUser && currentUser.email != foundUser.email) {
+    if(foundUser) {
        return res
          .status(400)
-         .json({ error: true, message: "This email is already in use" });
+         .json({ error: true, message: "Este email já está em uso" });
     }
 
     next()
