@@ -16,14 +16,14 @@ import clearImages from '../../helpers/clearImages.js';
      },
      custom: {
       options: (name) => {
-        return !regexAlphaAccent.test(name);
+        return  name.match(regexAlphaAccent);
       },
       errorMessage: "Nome deve ser alfabético"}
     },
    age: {
      exists: { errorMessage: "Campo age não existe" },
      notEmpty: { errorMessage: "Idade é obrigatório" },
-     isFloat: { errorMessage: "Idade deve ser ujm número" },
+     isFloat: { errorMessage: "Idade deve ser um número" },
    },
    weight: {
      exists: { errorMessage: "Campo weight não existe" },
@@ -35,14 +35,20 @@ import clearImages from '../../helpers/clearImages.js';
      notEmpty: { errorMessage: "Cor é obrigatório" },
      isAlpha: { errorMessage: "Cor deve ser alfabética" },
    },
+   description: {
+    notEmpty: { errorMessage: "Descrição não pode estar vazia" },
+    isString: {errorMessage: "Description deve ser string"},
+    optional: true
+    },
    images: {
-     exists: { errorMessage: "Campo images não existe" },
+     exists: { errorMessage: "Você deve enviar uma ou várias imagens" },
      notEmpty: { errorMessage: "Você deve enviar uma imagem" },
      isArray: {
        errorMessage: "Campo images deve ser um array de imagens",
        options: {
-         errorMessage: "Você deve enviar uma imagem pelo menos",
+         errorMessage: "Você deve enviar entre 1 a 4 imagens",
          min: 1,
+         max: 4
        },
      },
      custom: {
@@ -59,7 +65,7 @@ import clearImages from '../../helpers/clearImages.js';
 // check if body data is valid
 export default async function checkBodyBeforeRegisterPet(req, res, next) {
 
-  console.log(regexAlphaAccent.test(req.body.name));
+  // console.log('Nome válido:', regexAlphaAccent.test(req.body.name));
 
   // body vazio
   if (objIsEmpty(req.body)) {

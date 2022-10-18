@@ -45,7 +45,6 @@ export default class PetController {
       const pets = await Pet.find({ "adoption.owner._id": userId });
       res.json({
         message: "Todos os pets do usuário foram carregados com sucesso",
-        userId,
         pets,
       });
     } catch (e) {

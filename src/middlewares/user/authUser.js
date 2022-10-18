@@ -42,7 +42,9 @@ export default async function authUser(req, res, next){
       user = await User.findById(id);
 
       if(!user){
-        return res.status(400).json({ error: true, message: "Usuário não encontrado" });
+        return res
+          .status(400)
+          .json({ error: true, message: "Usuário não encontrado" });
       }
 
       res.locals.user = user.confidential
@@ -52,7 +54,9 @@ export default async function authUser(req, res, next){
 
     }
     catch(e) {
-      return res.status(400).json({error: true, message: 'ID de usuário inválido'})
+      return res
+        .status(400)
+        .json({ error: true, message: "ID de usuário inválido" });
     }
 }
  

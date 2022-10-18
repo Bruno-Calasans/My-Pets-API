@@ -30,6 +30,11 @@ const petUpdateSchema = {
     isAlpha: { errorMessage: "Color must be alphabetic" },
     optional: true,
   },
+  description: {
+    notEmpty: { errorMessage: "Descrição não pode estar vazia" },
+    isString: {errorMessage: "Description deve ser string"},
+    optional: true
+  },
   images: {
     notEmpty: { errorMessage: "Images can't be empty" },
     isArray: {

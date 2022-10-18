@@ -86,9 +86,16 @@ const petSchema = new Schema(
       type: adoptionSchema,
       required: true
     },
+    description: {
+      type: String,
+      maxlength: 1000,
+      required: false,
+      default: ''
+    },
     images: {
       type: [String],
       minLength: 1,
+      maxlength: 4,
       match: {
         value: regexFilePath,
         message: (value) => `This "${value}" is not a valid File Name`,
